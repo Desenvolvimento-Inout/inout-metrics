@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Inout Metrics – Dark Mode Design System
+   Inspired by Linear, Vercel, and Raycast
+   Silent, secure, organized aesthetic */
+
+@layer base {
+  :root {
+    --background: 240 10% 4%;
+    --foreground: 210 20% 95%;
+
+    --card: 240 8% 7%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 240 8% 9%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 28 90% 55%;
+    --primary-foreground: 240 10% 4%;
+
+    --secondary: 240 6% 12%;
+    --secondary-foreground: 210 15% 75%;
+
+    --muted: 240 5% 15%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 240 6% 14%;
+    --accent-foreground: 210 20% 90%;
+
+    --destructive: 0 55% 50%;
+    --destructive-foreground: 210 20% 95%;
+
+    --success: 152 45% 42%;
+    --success-foreground: 240 10% 4%;
+
+    --warning: 38 92% 55%;
+    --warning-foreground: 240 10% 4%;
+
+    --border: 240 6% 16%;
+    --input: 240 6% 12%;
+    --ring: 28 90% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 240 8% 6%;
+    --sidebar-foreground: 210 15% 75%;
+    --sidebar-primary: 28 90% 55%;
+    --sidebar-primary-foreground: 240 10% 4%;
+    --sidebar-accent: 240 6% 12%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 240 6% 14%;
+    --sidebar-ring: 28 90% 55%;
+
+    /* Custom tokens for Inout Metrics */
+    --metric-qualified: 152 45% 42%;
+    --metric-disqualified: 240 5% 45%;
+    --metric-conversion: 28 90% 55%;
+    --metric-leads: 24 85% 60%;
+    
+    /* Funnel colors */
+    --funnel-top: 24 85% 60%;
+    --funnel-middle: 28 90% 55%;
+    --funnel-bottom: 32 85% 50%;
+    
+    --gradient-dark: linear-gradient(180deg, hsl(240 10% 6%) 0%, hsl(240 10% 4%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(240 8% 8%) 0%, hsl(240 8% 6%) 100%);
+    --gradient-glow: radial-gradient(ellipse at top, hsl(28 90% 25% / 0.18) 0%, transparent 50%);
+    
+    --shadow-sm: 0 1px 2px hsl(240 10% 0% / 0.5);
+    --shadow-md: 0 4px 12px hsl(240 10% 0% / 0.4);
+    --shadow-lg: 0 8px 24px hsl(240 10% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(28 90% 55% / 0.12);
+  }
+
+  .dark {
+    /* Same as root - dark mode first */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background: var(--gradient-dark);
+    min-height: 100vh;
+  }
+
+  /* Smooth focus states */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* Metric card styles */
+  .metric-card {
+    @apply relative overflow-hidden rounded-xl border border-border bg-card p-6;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-md);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .metric-card:hover {
+    @apply border-primary/30;
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+
+  /* Skeleton loading animation */
+  .skeleton-dark {
+    @apply animate-pulse rounded-lg;
+    background: linear-gradient(
+      90deg,
+      hsl(240 5% 12%) 0%,
+      hsl(240 5% 16%) 50%,
+      hsl(240 5% 12%) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Glow effect for top of page */
+  .glow-effect {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1200px;
+    height: 400px;
+    background: var(--gradient-glow);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Step indicator for onboarding */
+  .step-indicator {
+    @apply flex items-center gap-3;
+  }
+
+  .step-dot {
+    @apply h-2 w-2 rounded-full transition-all duration-300;
+  }
+
+  .step-dot.active {
+    @apply bg-primary w-6;
+  }
+
+  .step-dot.completed {
+    @apply bg-primary;
+  }
+
+  .step-dot.pending {
+    @apply bg-muted;
+  }
+
+  /* Password field toggle */
+  .password-toggle {
+    @apply absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer;
+  }
+}
+
+@layer utilities {
+  /* Text gradients */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(28 90% 60%) 0%, hsl(24 80% 45%) 100%);
+  }
+
+  /* Fade in animation */
+  .fade-in {
+    animation: fadeIn 300ms ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Slide up animation */
+  .slide-up {
+    animation: slideUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
